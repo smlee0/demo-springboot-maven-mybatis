@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/pc/_layouts/mainLayout}"
+	prefix="og: http://ogp.me/ns#">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- SNS 공유하기 전용 meta Data -->
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:site_name" content=" U+알뜰모바일 다이렉트몰" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="이 요금제 어때?" />
+<meta property="og:description"
+	content="유심 데이터·통화 마음껏 Pro
+				하루에 데이터를 5GB 이상 꾸준히 많이 쓰고
+				데이터 소진 후 좀 더 빠른 속도를 원한다면 선택하세요.
+				하루에 데이터 5GB씩 사용하고,
+				다 쓰고 나면 최대 5Mbps 속도로 계속 사용가능 합니다." />
+<meta property="og:url"
+	content="https://38da-211-169-153-170.jp.ngrok.io/sample/share" />
+<meta property="og:image"
+	content="https://www.uplussave.com/images/main/thumbnail_uplussave.png" />
+<!--//SNS 공유하기 전용 meta Data -->
+
+<title>SNS 공유하기</title>
+<script type="text/javascript"
+	src="/app/js/pc/sample/share/kakao.min.js"></script>
+<script type="text/javascript"
+	src="/app/js/pc/sample/share/clipboard.min.js"></script>
+</head>
+
+<th:block layout:fragment="content">
+	<h1>SNS 공유하기 샘플</h1>
+
+	<div>
+		<a id="kakaotalk-sharing-btn" href="javascript:sendLink()"> <img
+			width=70 height=70
+			src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+			alt="카카오톡 공유 보내기 버튼" /></a>
+	</div>
+
+	<br>
+	<br>
+
+	<div>
+		<a href="javascript:shareFacebook()"><img width=70 height=70
+			src='https://www.uplussave.com/static/shop/images/ico/img_ico_sns03.png' /></a>
+	</div>
+
+	<br>
+	<br>
+
+	<div>
+		<a href="javascript:shareNaverBlog()"><img width=70 height=70
+			src='https://uptempom.com/wp-content/uploads/2021/01/%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A1%9C%EA%B3%A0-%EA%B3%A0%ED%99%94%EC%A7%88-300x300.png' /></a>
+	</div>
+
+	<br>
+	<br>
+
+	<a href="#" class="copyToClipBoard">URL 복사하기</a>
+
+	<br>
+	<br>
+
+</th:block>
+
+<th:block layout:fragment="scripts">
+	<script type="text/javascript" th:inline="javascript">
+		var snsSharePicture = "https://www.uplussave.com/images/main/thumbnail_uplussave.png";
+		var snsTitle = "이 요금제 어때?";
+		var snsSubTitle = '유심 데이터·통화 마음껏 Pro\n' + '하루에 데이터를 5GB 이상 꾸준히 많이 쓰고\n'
+				+ '데이터 소진 후 좀 더 빠른 속도를 원한다면 선택하세요.\n' + '하루에 데이터 5GB씩 사용하고,\n'
+				+ '다 쓰고 나면 최대 5Mbps 속도로 계속 사용가능 합니다.';
+
+		var snsSubTtile = 'U+알뜰모바일 다이렉트몰에서 쉽고 빠르게 유심을 구매하세요.';
+		//var snsShareUrl 		= '[[${snsShareUrl}]]';
+		var snsShareUrl = location.href;
+		console.log(snsShareUrl);
+
+		$(document).ready(function() {
+			snsInit();
+		});
+
+		function snsInit() {
+			Kakao.init("0f614d1aeea2f37d08dc16c42ee062d0");
+
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId : '779991989856046',
+					xfbml : true,
+					version : 'v14.0'
+				});
+				FB.AppEvents.logPageView();
+			};
+
+			(function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) {
+					return;
+				}
+				js = d.createElement(s);
+				js.id = id;
+				js.src = "https://connect.facebook.net/ko_KR/sdk.js";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+
+		}
+
+		/*************************** 카카오톡 시작 ***************************/
+		function sendLink() {
+			Kakao.Link.sendDefault({
+				objectType : 'feed',
+				content : {
+					title : snsTitle,
+					description : snsSubTitle,
+					imageUrl : snsSharePicture,
+					link : {
+						mobileWebUrl : snsShareUrl,
+						webUrl : snsShareUrl
+					},
+				},
+				buttons : [ {
+					title : '웹으로 보기',
+					link : {
+						mobileWebUrl : snsShareUrl,
+						webUrl : snsShareUrl
+					},
+				}, {
+					title : '앱으로 보기',
+					link : {
+						mobileWebUrl : snsShareUrl,
+						webUrl : snsShareUrl
+					},
+				}, ],
+			})
+
+			/* Kakao.Link.sendScrap({
+				requestUrl : snsShareUrl
+			}); */
+		}
+		/*************************** 카카오톡 종료 ***************************/
+
+		/*************************** URL 복사 시작 ***************************/
+		if (navigator.userAgent.toLowerCase().indexOf("msie") != -1) {
+			$(".copyToClipBoard").on("click", function() {
+				var txt = location.href;
+				var copyUrl = window.clipboardData.setData("Text", txt);
+				if (copyUrl) {
+					alert("복사되었습니다.");
+				} else {
+					alert("엑세스를 허용해야 복사가 가능합니다.새로고침 하시고 다시 시도해 주세요.");
+				}
+			});
+		} else {
+			$(".copyToClipBoard").attr('data-clipboard-text', location.href);
+			var clipboard = new Clipboard('.copyToClipBoard');
+
+			clipboard.on('success', function(e) {
+				alert("복사되었습니다.");
+			});
+			clipboard.on('error', function(e) {
+			});
+		};
+		/*************************** URL 복사 종료 ***************************/
+
+		/*************************** 페이스북 시작 ***************************/
+		function shareFacebook() {
+			FB.ui({
+				method : 'share',
+				href : snsShareUrl
+			}, function(response) {
+				if (response && !response.error_code) {
+					alert('공유를 완료했습니다.');
+				} else {
+					if (response == null) {
+						alert('공유를 취소하셨습니다.');
+					} else if (response.error_code) {
+						alert('공유가 실패하였습니다.\n다시 시도해주세요.\n[코드:'
+								+ response.error_code + ']');
+					}
+				}
+			});
+		}
+		/*************************** 페이스북 종료 ***************************/
+
+		/*************************** 네이버블로그 시작 ***************************/
+		function shareNaverBlog() {
+			var encodeUrl = encodeURIComponent(snsShareUrl);
+			var encodeTitle = encodeURIComponent(snsTitle);
+
+			var link = 'https://share.naver.com/web/shareView.nhn?url='
+					+ encodeUrl + '&title=' + encodeTitle;
+
+			var left = (screen.width / 2) - 250;
+			var top = (screen.height / 2) - 250;
+			window.open(link, 'share', 'width=500, height=500, top=' + top
+					+ ', left=' + left);
+		}
+		/*************************** 네이버블로그 종료 ***************************/
+	</script>
+</th:block>
+
+</html>

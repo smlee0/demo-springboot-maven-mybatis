@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/pc/_layouts/mainLayout}">
+
+
+<th:block layout:fragment="content">
+    테스트
+    
+	<input id="thisSeq" type="hidden" th:value="${data.seq}" />
+
+    <div class="cont">
+        <form id="searchForm" name="searchForm">
+<!--            <input type="hidden" id="code" name="code" th:value="${code}">-->
+<!--            <input type="hidden" id="no" name="no" th:value="${data.board.no}">-->
+        </form>
+    </div>
+
+    <h1>샘플 게시판 상세</h1>
+    <button id="delBtn">삭제</button>
+    <button id="setBtn">수정</button>
+    <button id="listBtn">목록</button>
+
+    <h2>테이블 데이터 출력</h2>
+    <table class="over-x">
+	    <colgroup>
+	        <col width="20%">
+	        <col width="*">
+	        <col width="20%">
+	        <col width="*">
+	    </colgroup>
+	    <tbody id="tbody">
+	    <tr>
+	        <th>등록일</th>
+	        <!-- <td th:text="${#temporals.format(data.regDt, 'yyyy-MM-dd')}"></td> -->
+<!-- 	        <td th:text="${#dates.format(data.regDt, 'yyyy-MM-dd')}"></td> -->
+	        <td th:text="${data.regDt}"></td>
+	        <th>조회수</th>
+	        <td th:text="${data.views}">0</td>
+	    </tr>
+	    <tr>
+	        <th>제목</th>
+	        <td colspan="3" th:text="${data.title}"></td>
+	    </tr>
+	    <tr>
+	        <th>내용</th>
+	        <td colspan="3"><textarea rows="10" cols="100%" th:text="${data.contents}" disabled="disabled"></textarea></td>
+	    </tr>
+	    </tbody>
+	</table>
+
+    <h2>관련된 파일 목록 출력</h2>
+    <p th:text="'파일이 뿌려질 예정'"></p>
+
+    <h2>이전/다음 출력</h2>
+    <p th:text="'이전/다음이 뿌려질 예정'"></p>
+    
+    <table class="over-x">
+	    <colgroup>
+	        <col width="20%">
+	        <col width="*">
+	        <col width="20%">
+	        <col width="*">
+	    </colgroup>
+	    <tbody id="tbody">
+	    <tr th:if="${nextData != null}">
+	        <th>Next</th>
+	        <td><a th:href="'/sample/board/view/'+${nextData.seq}" th:text="${nextData.title}" ></a></td>
+	        <th>등록일</th>
+	        <td th:text="${nextData.regDt}">0</td>
+	    </tr>
+	    <tr th:unless="${nextData != null}">
+	        <th>Next</th>
+	        <td colspan="3">Next Not Found.</td>
+	    </tr>
+	    <tr th:if="${prevData != null}">
+	        <th>Prev</th>
+	        <td><a th:href="'/sample/board/view/'+${prevData.seq}" th:text="${prevData.title}" ></a></td>
+	        <th>등록일</th>
+	        <td th:text="${prevData.regDt}">0</td>
+	    </tr>
+	    <tr th:unless="${prevData != null}">
+	        <th>Prev</th>
+	        <td colspan="3">Prev Not Found.</td>
+	    </tr>
+	</table>
+
+</th:block>
+
+<th:block layout:fragment="scripts">
+    <script type="text/javascript" src="/app/js/pc/sample/board/view.js"></script>
+</th:block>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--<html lagn="ko" xmlns:th="http://www.thymeleaf.org">-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!-- head -->
+<th:block th:fragment="headFragment">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        .... head 태그 코드 작성
+    </head>
+</th:block>
+
+<!-- header -->
+<th:block th:fragment="headerFragment">
+    <header>
+        .... header 태그 코드 작성
+    </header>
+</th:block>
+
+<!-- footer -->
+<th:block th:fragment="footerFragment">
+    <footer>
+        .... footer 태그 코드 작성
+    </footer>
+</th:block>
+
+<!-- scripts -->
+<th:block th:fragment="scriptsFragment">
+    <script src="/assets/js/lib/jquery.import.js"></script>
+</th:block>
+
+<!-- 페이지 공통 -->
+<th:block th:fragment="pagination">
+    <div class="paging" id="paging">
+        <!-- {% if result.data.params.startPageNo > 10  %}{% endif %} -->
+        <a th:if="${result.data.params.endPageNo} > 1" href="#" th:rel="${result.data.params.firstPageNo}" class="first">첫번째 페이지</a>
+        <!-- {% if result.data.params.currentPageNo > 10  %}{%endif%} -->
+        <a th:if="${result.data.params.endPageNo} > 1" href="#" th:rel="${result.data.params.prevPageNo}" class="prev">이전 페이지</a>
+        <a th:unless="${result.data.params.endPageNo} > 1" rel="1" class="first">첫번째 페이지</a>
+        <a th:unless="${result.data.params.endPageNo} > 1" rel="1" class="prev">이전 페이지</a>
+
+        <span class="num">
+        <th:block th:each="item : ${#numbers.sequence(result.data.params.startPageNo, result.data.params.endPageNo)}">
+            <th:block th:if="${result.data.params.currentPageNo == item}">
+                <a class="active" aria-current="page" th:text="${item}"></a>
+            </th:block>
+            <th:block th:unless="${result.data.params.currentPageNo == item}">
+                <a href="#" th:rel="${item}" th:text="${item}"></a>
+            </th:block>
+        </th:block>
+        </span>
+
+        <a th:if="${result.data.params.endPageNo} > 1" href="#" th:rel="${result.data.params.nextPageNo}" class="next">다음 페이지</a>
+        <a th:if="${result.data.params.endPageNo} > 1" href="#" th:rel="${result.data.params.lastPageNo}" class="last">마지막 페이지</a>
+        <a th:unless="${result.data.params.endPageNo} > 1" rel="1" class="next">다음 페이지</a>
+        <a th:unless="${result.data.params.endPageNo} > 1" rel="1" class="last">마지막 페이지</a>
+
+    </div>
+</th:block>
+
+</html>

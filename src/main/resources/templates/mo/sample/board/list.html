@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/mo/_layouts/mainLayout}">
+
+
+<th:block layout:fragment="content">
+    테스트 모바일 페이지
+
+    <div class="cont">
+        <form id="listFrm" name="listFrm">
+            <input type="hidden" id="list-currentPageNo" name="currentPageNo" th:value="${ result.data.params.currentPageNo == null ? '1' : result.data.params.currentPageNo }" />
+            <input type="hidden" id="list-searchKeyword" name="searchTxt" value="" />
+        </form>
+    </div>
+
+    <h1>sample board list</h1> 
+    <div class="btn-group">
+        <table style="width: 100%; border: 1px solid #111111;">
+			<!--<caption>게시글 목록</caption>-->
+            <colgroup>
+                <col/>
+                <col style="width:10%" />
+                <col style="width:20%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th scope="col">제목</th>
+                    <th scope="col">조회수</th>
+                    <th scope="col">등록일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item:${result.data.list}">
+                    <td><a th:href="'/sample/board/view/'+${item.seq}" th:text="${item.title}" ></a></td>
+                    <td th:text="${item.views}" ></td>
+                    <td th:text="${item.regDt}" ></td>
+                </tr>
+            </tbody>
+        </table>
+        
+		<!--/* 페이지 */-->
+        <th:block th:replace="/pc/_fragments/fragUtils :: pagination"></th:block>
+    </div>
+
+
+
+    <div class="vreview_main">
+        <!--  <iframe src="https://d24na79h4m83op.cloudfront.net/best-reviews-widget/index.html?mall_id=264&amp;mall_setting_id=261" style="display: block !important; border: none !important; margin: 0px auto !important; padding-top: 0px !important; padding-bottom: 0px !important; width: 100% !important; overflow: hidden !important; height: 369px !important;" onload="var self=this;window.addEventListener('message', function(e){ if (!e || e.source !== self.contentWindow || !e.data) return; self.style.setProperty('height', JSON.parse(e.data).body.height+'px', 'important'); }, false);"></iframe> -->
+        <iframe class="vreviewx-widget-iframe" vreviewx-widget-id="235" vreviewx-widget-category="product-summary-widget" src="https://d24na79h4m83op.cloudfront.net/product-summary-widget/index.html?url=https%3A%2F%2Fwww.uplussave.com%2Fshop%2Fdev%2FgoodsReview.mhp%3Fprodno%3D1" style="display: block !important; border: none !important; margin: 0px auto !important; padding-top: 0px !important; padding-bottom: 0px !important; width: calc((100% - 0px) - 0px) !important; overflow: hidden !important;" onload="var self=this;window.addEventListener('message', function(e){ try { if (!e || e.source !== self.contentWindow || !e.data) return; self.style.setProperty('height', JSON.parse(e.data).body.height+'px', 'important'); } catch(e) {} }, false);"></iframe>
+        <iframe class="vreviewx-widget-iframe" vreviewx-widget-id="237" vreviewx-widget-category="review-carousel-widget" src="https://d24na79h4m83op.cloudfront.net/review-carousel-widget/index.html?url=https%3A%2F%2Fwww.uplussave.com%2Fshop%2Fdev%2FgoodsReview.mhp%3Fprodno%3D1" style="display: block !important; border: none !important; margin: 0px auto !important; padding-top: 10px !important; padding-bottom: 0px !important; width: calc((100% - 0px) - 0px) !important; overflow: hidden !important;" onload="var self=this;window.addEventListener('message', function(e){ try { if (!e || e.source !== self.contentWindow || !e.data) return; self.style.setProperty('height', JSON.parse(e.data).body.height+'px', 'important'); } catch(e) {} }, false);"></iframe>
+    </div>
+
+
+    <div class="vreview_cont">
+        <!--브이리뷰-X (vreview-x) 베스트 리뷰 (상단 위젯) -->
+        <iframe src="https://d24na79h4m83op.cloudfront.net/best-reviews-widget/index.html?mall_id=264&mall_setting_id=261" style="display: block !important; border: none !important; margin: 50px auto !important; padding-top: 0px !important; padding-bottom: 0px !important; width: 100% !important; overflow: hidden !important;" onload="var self=this;window.addEventListener('message', function(e){ if (!e || e.source !== self.contentWindow || !e.data) return; self.style.setProperty('height', JSON.parse(e.data).body.height+'px', 'important'); }, false);"></iframe>
+
+        <iframe src="https://d24na79h4m83op.cloudfront.net/best-reviews-widget/index.html?mall_id=264&mall_setting_id=261" style="display: block !important; border: none !important; margin: 0 auto !important; padding-top: 0px !important; padding-bottom: 0px !important; width: 100% !important; overflow: hidden !important;" onload="var self=this;window.addEventListener('message', function(e){ if (!e || e.source !== self.contentWindow || !e.data) return; self.style.setProperty('height', JSON.parse(e.data).body.height+'px', 'important'); }, false);"></iframe>
+
+
+        <!--브이리뷰-X (vreview-x) 리뷰 리스트 (하단 위젯) -->
+        <iframe src="https://d24na79h4m83op.cloudfront.net/review-list-widget/index.html?mall_id=264&show_product_tag=1" style="display: block !important; border: none !important; margin: 0px auto !important; padding-top: 0px !important; padding-bottom: 0px !important; width: 100% !important; overflow: hidden !important;" onload="var self=this;window.addEventListener('message', function(e){ if (!e || e.source !== self.contentWindow || !e.data) return; self.style.setProperty('height', JSON.parse(e.data).body.height+'px', 'important'); }, false);"></iframe>
+    </div>
+
+
+</th:block>
+
+<th:block layout:fragment="scripts">
+    <script type="text/javascript" src="/app/js/pc/sample/board/list.js"></script>
+    <script>(function(s){s.async=true; s.src='https://d24na79h4m83op.cloudfront.net/embed-script/script.js?ver='+ parseInt(((new Date()).getTime())/1000/60/5);document.head.appendChild(s);}) (document.createElement("script"));</script>
+</th:block>
+
+</html>
